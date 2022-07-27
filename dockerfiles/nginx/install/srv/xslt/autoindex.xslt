@@ -9,7 +9,7 @@
   <html>
     <head>
       <title>Browse | Search</title>
-      <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+      <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     
     <!-- meilisearch searhbox css -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docs-searchbar.js@2.1.0/dist/cdn/docs-searchbar.min.css"/>
