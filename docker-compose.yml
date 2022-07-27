@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+
+  bs-nginx:
+    build: 
+      context: ./dockerfiles/bs-nginx 
+    container_name: bs-nginx
+    hostname: bs-nginx
+    restart: always
+    ports:
+      - ${PUBLIC_ADDR:?err}:80
+    environment:
+      - TZ=${TIMEZONE:-}
+    networks:
+      private-network:
+
+
+
+
+networks:
+  private-network:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: ${IPV4_NETWORK:?err}.0/24
