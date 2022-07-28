@@ -73,8 +73,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
             });
 
-    var progressWin = document.getElementById('progresswin');
-    var progressBar = document.getElementById('progressbar');
     var progressTrack = [];
     var totalFiles = 0;
 
@@ -90,14 +88,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }, false);
     });
-    function updateProgress(value, idx) {
-        progressTrack[idx].value = value;
-        var current = 0;
-        for (var i=0; i<progressTrack.length; i++) {
-            current += progressTrack[i].value;
-        }
-        progressBar.value = current || progressBar.value;
-    }
+
+
     function uploadFile(file, idx) {
         var xhr = new XMLHttpRequest();
         var formData = new FormData();
