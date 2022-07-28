@@ -90,41 +90,4 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    function uploadFile(file, idx) {
-        var xhr = new XMLHttpRequest();
-        var formData = new FormData();
-        xhr.open('PUT', document.location.href + '/' + file.name, true);
-        xhr.upload.addEventListener("progress", function(e) {
-            updateProgress(e.loaded, idx);
-        });
-        xhr.addEventListener('readystatechange', function(e) {
-            if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 201 || xhr.status == 204)) {
-                totalFiles--;
-            } else if (xhr.readyState == 4) {
-                alert (xhr.statusText);
-                console.log(xhr);
-                totalFiles--;
-            }
-            if (totalFiles == 0) {
-                document.location.reload();
-            }
-        });
-        xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-        xhr.send(file);
-    }
-    function deleteFile(path) {
-    if (confirm('Are you sure you want to delete [' + path + ']?')) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('DELETE', document.location.href + '/' + path, true);
-        xhr.send();
-                    xhr.addEventListener('readystatechange', function(e) {
-                            if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 201 || xhr.status == 204)) {
-                                document.location.reload();
-                        }
-                    });
-    }
-    }
-    function parseHttpHeaders(httpHeaders) {
-    return httpHeaders.split("\n").map(x=>x.split(/: */,2)).filter(x=>x[0]).reduce((ac, x)=>{ac[x[0]] = x[1];return ac;}, {});
-    }
 });
