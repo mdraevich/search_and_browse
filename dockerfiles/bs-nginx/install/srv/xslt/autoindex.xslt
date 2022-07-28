@@ -13,18 +13,18 @@
 
         <!-- meilisearch searhbox css -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docs-searchbar.js@2.1.0/dist/cdn/docs-searchbar.min.css"/>
+        
+        <!-- icons loaded -->
+        <script src="https://kit.fontawesome.com/55eb9c16a8.js"></script>
+        
+
+        <script type="text/javascript" src="/scripts/content_load_event.js"></script>
         <link rel="stylesheet" href="/css/main.css"/>
 
-        <script src="https://kit.fontawesome.com/55eb9c16a8.js"></script>
-        <script type="text/javascript" src="/scripts/content_load_event.js"></script>
-
-
-
     </head>
+
+
     <body>
-      <div id="progresswin">
-        <progress id="progressbar"></progress>
-      </div>
       <div id="droparea">
           <nav id="breadcrumbs"><ul><li><a href="/"><i class="fa fa-home"></i></a></li></ul>
                 <input type="search" id="search-bar-input" />
