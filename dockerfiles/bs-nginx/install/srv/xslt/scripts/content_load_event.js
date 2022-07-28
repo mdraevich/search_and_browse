@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function(){
             var nav = document.querySelector("nav#breadcrumbs ul");
             var pathSoFar = '';
 
-            for (var i=1; i<path.length-1; i++)
+            for (var i=2; i<path.length-1; i++)
             {
                 pathSoFar += '/' + path[i];
                 if (i < path.length-2) {
