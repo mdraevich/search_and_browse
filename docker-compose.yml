@@ -16,6 +16,18 @@ services:
       private-network:
 
 
+  bs-meilisearch:
+    image: getmeili/meilisearch:v0.28
+    container_name: bs-meilisearch
+    hostname: bs-meilisearch
+    restart: always
+    environment:
+      - TZ=${TIMEZONE:-}
+      - MEILI_MASTER_KEY=${MASTER_KEY:?err}
+    networks:
+      private-network:
+
+
 
 
 networks:
