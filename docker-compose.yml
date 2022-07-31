@@ -8,6 +8,8 @@ services:
     container_name: bs-nginx
     hostname: bs-nginx
     restart: always
+    volumes:
+      - /home/matvey/Downloads:/srv/index
     ports:
       - ${PUBLIC_ADDR:?err}:80
     environment:
