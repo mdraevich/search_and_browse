@@ -1,7 +1,9 @@
+var meilisearch_url = new URL('/search', window.location)
+
 docsSearchBar({
-    hostUrl: 'http://172.17.17.230:7700',
-    apiKey: '5o1elEzQ871df4877ca5a5ca5b2bc53a1e566737b39dbb9666f094d072661d99d17e3d19',
-    indexUid: 'docs',
+    hostUrl: meilisearch_url.href,
+    apiKey: '3c90de8b666a8af859fee65c872f1ac494a3b5c44e88e0481a6f5388fe5659af',
+    indexUid: 'files',
     inputSelector: '#search-bar-input',
     enhancedSearchInput: true,
     enableDarkMode: true,
