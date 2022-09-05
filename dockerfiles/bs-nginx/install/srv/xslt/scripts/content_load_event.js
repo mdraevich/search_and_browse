@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
             {
                 pathSoFar += '/' + path[i];
                 if (i < path.length-2) {
-                    nav.innerHTML += '<li><a href="' + encodeURI(pathSoFar)  + '">' + path[i] + '</a></li>';
+                    nav.innerHTML += '<li><a href="/index' + encodeURI(pathSoFar)  + '/">' + path[i] + '</a></li>';
                 } else {
                     nav.innerHTML += '<li><a>' + path[i] + '</a></li>';
                 }

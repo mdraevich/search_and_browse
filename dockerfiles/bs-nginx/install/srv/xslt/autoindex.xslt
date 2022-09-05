@@ -23,65 +23,64 @@
                 <link rel="stylesheet" href="/css/main.css"/>
                 <script type="text/javascript" src="/scripts/content_load_event.js"></script>
 
+                <!-- jquery loading -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
             </head>
 
 
             <body>
 
-                <div id="droparea">
+                <nav id="breadcrumbs"><ul><li><a href="/"><i class="fa fa-home"></i></a></li></ul>
+                    <input type="search" id="search-bar-input" />
+                </nav>
 
-                    <nav id="breadcrumbs"><ul><li><a href="/"><i class="fa fa-home"></i></a></li></ul>
-                        <input type="search" id="search-bar-input" />
-                    </nav>
+                <hr id="line"/>
 
-                    <hr id="line"/>
+                <table id="contents">
+                    <tbody>
+                        
+                        <tr class="go-up">
+                            <td class="icon"><a href="../"><i class="fa fa-arrow-up"></i></a></td>
+                            <td class="name"><a href="../">..</a></td>
+                            <td class="size"><a href="../"></a></td>
+                            <td class="mtime"><a href="../"></a></td>
+                            <td class="actions"><a href="../"></a></td>
+                        </tr>
 
-                    <table id="contents">
-                        <tbody>
-                            
-                            <tr class="directory go-up">
-                                <td class="icon"><a href="../"><i class="fa fa-arrow-up"></i></a></td>
-                                <td class="name"><a href="../">..</a></td>
-                                <td class="size"><a href="../"></a></td>
-                                <td class="mtime"><a href="../"></a></td>
-                                <td class="actions"><a href="../"></a></td>
+                        <xsl:if test="count(list/directory) != 0">
+                            <tr class="separator">
+                                <td colspan="4"><hr/></td>
                             </tr>
+                        </xsl:if>
 
-                            <xsl:if test="count(list/directory) != 0">
-                                <tr class="separator directories">
-                                    <td colspan="4"><hr/></td>
-                                </tr>
-                            </xsl:if>
-
-                            <xsl:for-each select="list/directory">
-                                <tr class="directory">
-                                    <td class="icon"><a href="{.}/"><i class="fa fa-folder"></i></a></td>
-                                    <td class="name"><a href="{.}/"><xsl:value-of select="." /></a></td>
-                                    <td class="size"><a href="{.}/"></a></td>
-                                    <td class="mtime"><a href="{.}/"><xsl:value-of select="./@mtime" /></a></td>
-                                    <td class="actions"></td>
-                                </tr>
-                            </xsl:for-each>
-
-                            <xsl:if test="count(list/file) != 0">
-                            <tr class="separator files">
-                            <td colspan="4"><hr/></td>
+                        <xsl:for-each select="list/directory">
+                            <tr id="{translate(., ' ', '_')}" class="directory">
+                                <td class="icon"><a href="{.}/"><i class="fa fa-folder"></i></a></td>
+                                <td class="name"><a href="{.}/"><xsl:value-of select="." /></a></td>
+                                <td class="size"><a href="{.}/"></a></td>
+                                <td class="mtime"><a href="{.}/"><xsl:value-of select="./@mtime" /></a></td>
+                                <td class="actions"></td>
                             </tr>
-                            </xsl:if>
+                        </xsl:for-each>
 
-                            <xsl:for-each select="list/file">
-                                <tr id="{translate(., ' ', '_')}" class="file">
-                                    <td class="icon"><a href="{.}" download="{.}"><i class="fa fa-file"></i></a></td>
-                                    <td class="name"><a href="{.}" download="{.}"><xsl:value-of select="." /></a></td>
-                                    <td class="size"><a href="{.}" download="{.}"><xsl:value-of select="./@size" /></a></td>
-                                    <td class="mtime"><a href="{.}" download="{.}"><xsl:value-of select="./@mtime" /></a></td>
-                                    <td class="actions"></td>
-                                </tr>
-                            </xsl:for-each>
+                        <xsl:if test="count(list/file) != 0">
+                            <tr class="separator">
+                                <td colspan="4"><hr/></td>
+                            </tr>
+                        </xsl:if>
 
-                        </tbody>
-                    </table>
-                </div>
+                        <xsl:for-each select="list/file">
+                            <tr id="{translate(., ' ', '_')}" class="file">
+                                <td class="icon"><a href="{.}" download="{.}"><i class="fa fa-file"></i></a></td>
+                                <td class="name"><a href="{.}" download="{.}"><xsl:value-of select="." /></a></td>
+                                <td class="size"><a href="{.}" download="{.}"><xsl:value-of select="./@size" /></a></td>
+                                <td class="mtime"><a href="{.}" download="{.}"><xsl:value-of select="./@mtime" /></a></td>
+                                <td class="actions"></td>
+                            </tr>
+                        </xsl:for-each>
+
+                    </tbody>
+                </table>
 
                 <!-- searchbox configuration -->
                 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docs-searchbar.js@2.1.0/dist/cdn/docs-searchbar.min.js"></script>
