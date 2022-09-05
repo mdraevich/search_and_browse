@@ -1,0 +1,4 @@
+{
+    "meilisearch_index_name": "$MEILI_INDEX_NAME",
+    "meilisearch_search_api_key": "$MEILI_SEARCH_KEY"
+}
