@@ -15,81 +15,55 @@ $.getJSON(meilisearch_access_file.href, function(data) {
         },
         debug: false,
         transformData: function (data) {
-            // console.log(data);
 
             for (let i = 0; i < data.length; i++) {
-                // prepare
-                var raw_url = data[i]["url"];
-                var url;
-                var directory = data[i]["_formatted"]["hierarchy_lvl0"];
-                var filename = data[i]["_formatted"]["hierarchy_lvl1"];
+                var OBJECT_NAME_LIMIT = 75;
 
-                var subcategory = ""
-                var SUBCATEGORY_LIMIT = 55;
+                // prepare
+                var url_raw = new URL(data[i]["url"]);
+                var url = new URL(data[i]["_formatted"]["url"]);
+
+                var object_name = data[i]["_formatted"]["hierarchy_lvl1"];
+                var object_name_raw = data[i]["hierarchy_lvl1"];
+
 
                 // reformat
-                {
-                    url = new URL(raw_url).pathname;
-                    url = decodeURI(url);
-                    url = url.replaceAll("</em>", "<=em>");
-                    url = url.slice(0, url.lastIndexOf('/'));
-                    url = url.replaceAll("/", '\xa0\xa0\xa0→\xa0<i class="fa fa-folder"></i> ');
-                    url = url.replaceAll("<=em>", "</em>");
+                var filesystem_path, filesystem_path_array;
+
+                filesystem_path_array = decodeURI(url.pathname);
+                filesystem_path_array = filesystem_path_array.replaceAll("</em>", "<=em>");
+                filesystem_path_array = filesystem_path_array.split("/").filter(item => item);
+                filesystem_path_array[0] = '<i class="fa fa-home"></i>'
+
+                filesystem_path = filesystem_path_array.join('\xa0\xa0\xa0→\xa0<i class="fa fa-folder"></i> ') 
+                filesystem_path = filesystem_path.replaceAll("<=em>", "</em>");
+
+
+                // trim object name if it's too long
+                if (object_name_raw.length > OBJECT_NAME_LIMIT) {
+                    object_name = object_name.substring(0, OBJECT_NAME_LIMIT) + "...";
                 }
-                {
-                    if (filename == null && directory == null) {
-                        filename = decodeURI(new URL(raw_url).pathname).slice(0, url.lastIndexOf('/'));
-                        filename = filename.split('/').slice(-1)[0];
-                    }
-                    if (filename) {
-                        // match file name
-                        subcategory = filename;
-
-                        if(subcategory.replaceAll("<em>", "").replaceAll("</em>", "").length > SUBCATEGORY_LIMIT) {
-                            subcategory = subcategory.substring(0,SUBCATEGORY_LIMIT) + "...";
-                        }
-                        subcategory = '<i class="fa fa-file"></i> ' + subcategory;
-
-                    } else {                        
-                        // match directory name
-                        subcategory = directory;
-
-                        if(subcategory.replaceAll("<em>", "").replaceAll("</em>", "").length > SUBCATEGORY_LIMIT) {
-                            subcategory = subcategory.substring(0,SUBCATEGORY_LIMIT) + "...";
-                        }
-                        subcategory = '<i class="fa fa-folder-yellow"></i> ' + subcategory;
-
-                    } 
-
-
-
-                }
-
-
-                // apply
-                data[i]["_formatted"]["hierarchy_lvl0"] = '<i class="fa fa-home"></i>' + url;
-                data[i]["hierarchy_lvl0"] = "main"
                 
-                data[i]["_formatted"]["hierarchy_lvl1"] = subcategory;
-                data[i]["hierarchy_lvl1"] = "main";
+                // #file or #directory prefix should exists
+                if (url_raw.hash.startsWith("#file")) {
+                    object_name = '<i class="fa fa-file"></i> ' + object_name;
+                }
+                else {
+                    object_name = '<i class="fa fa-folder-yellow"></i> ' + object_name;
+                }
 
+                // set formatted value to display
+                data[i]["_formatted"]["hierarchy_lvl0"] = filesystem_path;
+                data[i]["_formatted"]["hierarchy_lvl1"] = object_name;
                 data[i]["_formatted"]["hierarchy_lvl2"] = ' ';
-                data[i]["hierarchy_lvl2"] = ' ';
-
-                data[i]["url"] = new URL(data[i]["url"]).pathname + new URL(data[i]["url"]).hash
-                // data[i]["_formatted"]["hierarchy_lvl3"] = ' ';
-                // data[i]["_formatted"]["hierarchy_lvl4"] = ' ';
-                // data[i]["_formatted"]["hierarchy_lvl5"] = ' ';
-                // data[i]["_formatted"]["hierarchy_lvl6"] = ' ';
-                // data[i]["_formatted"]["content"] = ' ';
+                
+                // remove hostname from url - must use relative links behind reverse proxy
+                data[i]["url"] = url_raw.pathname + url_raw.hash
 
             }
-            // console.log(data);
             return data;
         },
     });
-
-
 
     // set anchor highlighting
     var last_anchor;        

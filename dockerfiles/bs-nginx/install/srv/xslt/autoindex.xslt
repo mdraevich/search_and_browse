@@ -54,7 +54,7 @@
                         </xsl:if>
 
                         <xsl:for-each select="list/directory">
-                            <tr id="{translate(., ' ', '_')}" class="directory">
+                            <tr id="directory_{translate(., ' ', '_')}" class="directory">
                                 <td class="icon"><a href="{.}/"><i class="fa fa-folder"></i></a></td>
                                 <td class="name"><a href="{.}/"><xsl:value-of select="." /></a></td>
                                 <td class="size"><a href="{.}/"></a></td>
@@ -70,7 +70,7 @@
                         </xsl:if>
 
                         <xsl:for-each select="list/file">
-                            <tr id="{translate(., ' ', '_')}" class="file">
+                            <tr id="file_{translate(., ' ', '_')}" class="file">
                                 <td class="icon"><a href="{.}" download="{.}"><i class="fa fa-file"></i></a></td>
                                 <td class="name"><a href="{.}" download="{.}"><xsl:value-of select="." /></a></td>
                                 <td class="size"><a href="{.}" download="{.}"><xsl:value-of select="./@size" /></a></td>
