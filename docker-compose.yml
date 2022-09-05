@@ -8,26 +8,55 @@ services:
     container_name: bs-nginx
     hostname: bs-nginx
     restart: always
-    volumes:
-      - /home/matvey/Downloads:/srv/index
+    # volumes:
+    #   - /home/matvey/Downloads:/srv/index
     ports:
       - ${PUBLIC_ADDR:?err}:80
     environment:
       - TZ=${TIMEZONE:-}
+      # for client access
+      - MEILI_HOST_URL=${MEILI_HOST_URL:?err}
+      - MEILI_INDEX_NAME=${MEILI_INDEX_NAME:?err}
+      # for configuration purposes
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:?err}
     networks:
       private-network:
 
-
   bs-meilisearch:
-    image: getmeili/meilisearch:v0.28
+    image: getmeili/meilisearch:v0.28.1
     container_name: bs-meilisearch
     hostname: bs-meilisearch
     restart: always
+    volumes:
+      - meilisearch_data:/meili_data
     environment:
       - TZ=${TIMEZONE:-}
-      - MEILI_MASTER_KEY=${MASTER_KEY:?err}
+      - MEILI_ENV=${MEILI_ENV:-development}
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:?err}
     networks:
       private-network:
+
+
+  bs-scraper:
+    build: 
+      context: ./dockerfiles/bs-scraper 
+    container_name: bs-scraper
+    hostname: bs-scraper
+    restart: on-failure
+    environment:
+      - TZ=${TIMEZONE:-}
+      # 
+      - MEILISEARCH_HOST_URL=${MEILI_HOST_URL:?err}
+      - MEILISEARCH_API_KEY=${MEILI_MASTER_KEY:?err}
+      # scraper configuration
+      - CLEAN_INDEX=${SCRAPER_CLEAN_INDEX:-NO}
+    networks:
+      private-network:
+
+
+
+volumes:
+  meilisearch_data:
 
 
 
