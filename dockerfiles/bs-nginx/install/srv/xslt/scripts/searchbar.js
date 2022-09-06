@@ -21,19 +21,23 @@ $.getJSON(meilisearch_access_file.href, function(data) {
 
                 // prepare
                 var url_raw = new URL(data[i]["url"]);
-                var url = new URL(data[i]["_formatted"]["url"]);
+                var url = data[i]["_formatted"]["url"];
 
                 var object_name = data[i]["_formatted"]["hierarchy_lvl1"];
                 var object_name_raw = data[i]["hierarchy_lvl1"];
 
-
                 // reformat
                 var filesystem_path, filesystem_path_array;
 
-                filesystem_path_array = decodeURI(url.pathname);
-                filesystem_path_array = filesystem_path_array.replaceAll("</em>", "<=em>");
-                filesystem_path_array = filesystem_path_array.split("/").filter(item => item);
-                filesystem_path_array[0] = '<i class="fa fa-home"></i>'
+                url = decodeURI(url)
+                url = url.replaceAll("</em>", "<=em>")
+                filesystem_path_array = url.split("/").filter(item => item);
+                
+                // remove protocol and hostname parts
+                filesystem_path_array = filesystem_path_array.slice(2, -1)
+
+                // change "index" > "fa-home"
+                filesystem_path_array[0] = '<i class="fa fa-home"></i>'  
 
                 filesystem_path = filesystem_path_array.join('\xa0\xa0\xa0→\xa0<i class="fa fa-folder"></i> ') 
                 filesystem_path = filesystem_path.replaceAll("<=em>", "</em>");
